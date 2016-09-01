@@ -21,9 +21,15 @@ function generateBadge(d, status) {
 
 function fetchMRStatus(url) {
     return new Promise((resolve, reject) => {
-        resolve({
-            state: "Open",
-            color: "#B0B0B0"
+        chrome.runtime.sendMessage({
+            method: "fetchStatus",
+            args: [url]
+        }, result => {
+            if (result.success) {
+                resolve(result.data);
+            } else {
+                reject(result.reason);
+            }
         });
     });
 }
