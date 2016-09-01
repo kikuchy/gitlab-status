@@ -1,0 +1,24 @@
+{
+	"manifest_version": 2,
+	"version": "0.0.1",
+	"name": "gitlab-status",
+	"description": "Gitlab Merge Requests Status",
+    "icons": {
+        "32": "icons/icon32.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "permissions": [
+        "webRequest",
+        "http://*/*",
+        "https://*/*"
+    ],
+	"content_scripts": [{
+		"run_at": "document_start",
+		"js": ["javascript/application.js"],
+        "matches": ["http://*/*"]
+	}],
+    "background": {
+        "scripts": ["javascript/background.js"]
+    }
+}

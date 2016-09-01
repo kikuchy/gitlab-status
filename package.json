@@ -1,0 +1,17 @@
+{
+  "name": "gitlab-status",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pack": "webpack"
+  },
+  "author": "kikuchy",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
+    "webpack": "^1.13.2"
+  }
+}
