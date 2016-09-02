@@ -9,6 +9,7 @@
         "128": "icons/icon128.png"
     },
     "permissions": [
+        "cookies",
         "webRequest",
         "http://*/*",
         "https://*/*"
@@ -16,7 +17,7 @@
 	"content_scripts": [{
 		"run_at": "document_start",
 		"js": ["javascript/application.js"],
-        "matches": ["http://*/*"]
+        "matches": ["http://*/*", "https://*/*"]
 	}],
     "background": {
         "scripts": ["javascript/background.js"]

@@ -45,7 +45,6 @@ function ready(document) {
 let url = "https://gitlab.com/";
 
 ready(document).then(_ => {
-    console.log(findGitlabAnchors(document, url));
     Array.prototype.map.call(
         findGitlabAnchors(document, url),
         elem => {
@@ -53,6 +52,6 @@ ready(document).then(_ => {
             fetchMRStatus(mrUrl).then(status => {
                 let badge = generateBadge(document, status);
                 addStatusBadge(document, elem, badge);
-            });
+            }, reason => console.log(reason));
         });
 });

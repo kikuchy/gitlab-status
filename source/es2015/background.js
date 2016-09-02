@@ -2,13 +2,21 @@ function fetchStatus(mrUrl) {
     return fetch(mrUrl).
         then(res => res.text()).
         then(text => {
-            // todo: 頑張って正規表現とかでステータス部分探してくる
+            let state = ((/<span class="hidden-xs">\n(Merged|Open|Closed)\n<\/span>/ig).exec(text) || [])[1];
+            if (state) {
+                return Promise.resolve({
+                    state: state,
+                    color: "#2d9fd8"    // FIXME
+                });
+            } else {
+                return Promise.reject("Merge Request state is not found.");
+            }
         });
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.method == "fetchStatus") {
-        fetchStatus.call(this, request.args).then(status => {
+        fetchStatus.apply(this, request.args).then(status => {
             sendResponse({
                 success: true,
                 data: status
@@ -18,6 +26,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 success: false,
                 reason: reason
             });
+        });
+        return true;
+    } else {
+        sendResponse({
+            success: false,
+            reason: "no method"
         });
     }
 });
