@@ -1,5 +1,8 @@
 function fetchStatus(mrUrl) {
-    return fetch(mrUrl).
+    return fetch(mrUrl, {
+            method: "GET",
+            credentials: 'include'
+        }).
         then(res => res.text()).
         then(text => {
             let state = ((/<span class="hidden-xs">\n(Merged|Open|Closed)\n<\/span>/ig).exec(text) || [])[1];

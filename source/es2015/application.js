@@ -13,9 +13,15 @@ function addStatusBadge(d, glabA, badge) {
 function generateBadge(d, status) {
     let b = d.createElement("span");
     b.textContent = status.state;
+    b.className = "_gitlab_status";
     b.style =  `display: inline-block;
                 background-color: ${status.color};
-                font-size: 0.87em;`;
+                font-size: 0.87em;
+                font-weight: bold;
+                color: #ffffff;
+                margin: 0 0.3em;
+                padding: 0 0.3em;
+                border-radius: 3px`;
     return b;
 }
 
