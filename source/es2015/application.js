@@ -1,3 +1,5 @@
+import { ready } from "./utils"
+
 function findGitlabAnchors(d, url) {
     let as = d.querySelectorAll("a[href^='" + url + "']");
     let exp = new RegExp(url + ".+/.+/merge_requests/\\d+");
@@ -18,18 +20,7 @@ function generateBadge(d, status) {
 }
 
 function fetchMRStatus(url) {
-    return new Promise((resolve, reject) => {
-        chrome.runtime.sendMessage({
-            method: "fetchStatus",
-            args: [url]
-        }, result => {
-            if (result.success) {
-                resolve(result.data);
-            } else {
-                reject(result.reason);
-            }
-        });
-    });
+    return callBackgroundMethod("fetchStatus", url);
 }
 
 function addStyleForStatus(d) {
@@ -55,18 +46,29 @@ function addStyleForStatus(d) {
     d.body.appendChild(style);
 }
 
-function ready(document) {
-    return new Promise(resolve => {
-        document.addEventListener("DOMContentLoaded", _ => {
-            resolve();
+
+function callBackgroundMethod(method) {
+    return new Promise((resolve, reject) => {
+        chrome.runtime.sendMessage({
+            method: method,
+            args: Array.prototype.slice.call(arguments, 1)
+        }, result => {
+            if (result.success) {
+                resolve(result.data);
+            } else {
+                reject(result.reason);
+            }
         });
     });
 }
 
-let url = "https://gitlab.com/";
 
 ready(document).then(_ => {
     addStyleForStatus(document);
+});
+
+Promise.all([ready(document), callBackgroundMethod("loadGitlabUrl")]).then(values => {
+    let [a, url] = values;
     Array.prototype.map.call(
         findGitlabAnchors(document, url),
         elem => {

@@ -3,7 +3,8 @@ module.exports = {
     entry: {
     
         application: "./es2015/application",
-        background: "./es2015/background"
+        background: "./es2015/background",
+        option: "./es2015/option"
     },
     output: {
         path: __dirname + "/distribution/javascript",

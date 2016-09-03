@@ -17,9 +17,24 @@ function fetchStatus(mrUrl) {
         });
 }
 
+function loadGitlabUrl() {
+    let url = localStorage["url"];
+    if (url) {
+        return Promise.resolve(url);
+    } else {
+        return Promise.reject("Gitlab URL is not setted.");
+    }
+}
+
+let rpc = {
+    fetchStatus: fetchStatus,
+    loadGitlabUrl: loadGitlabUrl
+};
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.method == "fetchStatus") {
-        fetchStatus.apply(this, request.args).then(status => {
+    let method = rpc[request.method];
+    if (method) {
+        method.apply(this, request.args).then(status => {
             sendResponse({
                 success: true,
                 data: status
