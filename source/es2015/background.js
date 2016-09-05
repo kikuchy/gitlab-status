@@ -8,8 +8,7 @@ function fetchStatus(mrUrl) {
             let state = ((/<span class="hidden-xs">\n(Merged|Open|Closed)\n<\/span>/ig).exec(text) || [])[1];
             if (state) {
                 return Promise.resolve({
-                    state: state,
-                    color: "#2d9fd8"    // FIXME
+                    state: state
                 });
             } else {
                 return Promise.reject("Merge Request state is not found.");

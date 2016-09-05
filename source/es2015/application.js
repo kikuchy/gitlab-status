@@ -46,6 +46,9 @@ function addStyleForStatus(d) {
     d.body.appendChild(style);
 }
 
+function loadUrl() {
+    return callBackgroundMethod("loadGitlabUrl");
+}
 
 function callBackgroundMethod(method) {
     return new Promise((resolve, reject) => {
@@ -67,7 +70,7 @@ ready(document).then(_ => {
     addStyleForStatus(document);
 });
 
-Promise.all([ready(document), callBackgroundMethod("loadGitlabUrl")]).then(values => {
+Promise.all([ready(document), loadUrl()]).then(values => {
     let [a, url] = values;
     Array.prototype.map.call(
         findGitlabAnchors(document, url),
